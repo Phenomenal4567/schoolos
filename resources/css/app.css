@@ -1,0 +1,409 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+        'Segoe UI Symbol', 'Noto Color Emoji';
+    --color-schoolos-soft: #F4FBF7;
+}
+
+:root {
+    --so-bg: #ffffff;
+    --so-bg-secondary: #f8fafc;
+    --so-bg-subtle: #f0fdf4;
+    --so-surface: #ffffff;
+    --so-surface-secondary: #f8fafc;
+    --so-surface-elevated: #ffffff;
+    --so-text: #111827;
+    --so-text-secondary: #6b7280;
+    --so-text-muted: #9ca3af;
+    --so-border: #e5e7eb;
+    --so-brand: #16a34a;
+    --so-brand-bright: #22c55e;
+    --so-brand-strong: #15803d;
+    --so-brand-soft: #dcfce7;
+    --so-success-soft: #dcfce7;
+    --so-success-text: #15803d;
+    --so-warning-soft: #fef3c7;
+    --so-warning-text: #92400e;
+    --so-danger-soft: #fee2e2;
+    --so-danger-text: #b91c1c;
+    --so-focus: rgb(34 197 94 / 0.18);
+}
+
+html[data-theme="dark"] {
+    --so-bg: #07130d;
+    --so-bg-secondary: #0d1b14;
+    --so-bg-subtle: #07130d;
+    --so-surface: #0d1b14;
+    --so-surface-secondary: #12231a;
+    --so-surface-elevated: #172a20;
+    --so-text: #f8fafc;
+    --so-text-secondary: #cbd5e1;
+    --so-text-muted: #94a3b8;
+    --so-border: #20372a;
+    --so-brand: #22c55e;
+    --so-brand-bright: #4ade80;
+    --so-brand-strong: #4ade80;
+    --so-brand-soft: #14532d;
+    --so-success-soft: #14532d;
+    --so-success-text: #86efac;
+    --so-warning-soft: #3f2f12;
+    --so-warning-text: #fbbf24;
+    --so-danger-soft: #3f1518;
+    --so-danger-text: #fca5a5;
+    --so-focus: rgb(74 222 128 / 0.18);
+}
+
+.schoolos-public,
+.schoolos-public * {
+    transition-property: background-color, border-color, color, box-shadow;
+    transition-duration: 200ms;
+}
+
+.schoolos-public {
+    background: var(--so-bg);
+    color: var(--so-text);
+}
+
+html[data-theme="dark"] .schoolos-public .bg-white,
+html[data-theme="dark"] .schoolos-public .bg-white\/80,
+html[data-theme="dark"] .schoolos-public .bg-white\/95 {
+    background-color: color-mix(in srgb, var(--so-surface) 92%, transparent) !important;
+}
+
+html[data-theme="dark"] .schoolos-public .bg-slate-50,
+html[data-theme="dark"] .schoolos-public .bg-gray-50,
+html[data-theme="dark"] .schoolos-public .bg-schoolos-soft {
+    background-color: var(--so-bg-secondary) !important;
+}
+
+html[data-theme="dark"] .schoolos-public .bg-green-50,
+html[data-theme="dark"] .schoolos-public .bg-green-100 {
+    background-color: var(--so-brand-soft) !important;
+}
+
+html[data-theme="dark"] .schoolos-public .bg-green-500,
+html[data-theme="dark"] .schoolos-public .bg-green-600,
+html[data-theme="dark"] .schoolos-public .bg-green-700 {
+    background-color: var(--so-brand) !important;
+}
+
+html[data-theme="dark"] .schoolos-public .bg-green-600.text-white,
+html[data-theme="dark"] .schoolos-public .bg-green-700.text-white {
+    color: #052e16 !important;
+}
+
+html[data-theme="dark"] .schoolos-public .bg-red-50 {
+    background-color: var(--so-danger-soft) !important;
+}
+
+html[data-theme="dark"] .schoolos-public .bg-amber-100 {
+    background-color: var(--so-warning-soft) !important;
+}
+
+html[data-theme="dark"] .schoolos-public .text-\[\#111827\],
+html[data-theme="dark"] .schoolos-public .text-\[\#171717\],
+html[data-theme="dark"] .schoolos-public .text-gray-950,
+html[data-theme="dark"] .schoolos-public .text-gray-900,
+html[data-theme="dark"] .schoolos-public .text-gray-800 {
+    color: var(--so-text) !important;
+}
+
+html[data-theme="dark"] .schoolos-public .text-gray-700,
+html[data-theme="dark"] .schoolos-public .text-gray-600,
+html[data-theme="dark"] .schoolos-public .text-green-50,
+html[data-theme="dark"] .schoolos-public .text-green-100 {
+    color: var(--so-text-secondary) !important;
+}
+
+html[data-theme="dark"] .schoolos-public .text-gray-500,
+html[data-theme="dark"] .schoolos-public .text-gray-400 {
+    color: var(--so-text-muted) !important;
+}
+
+html[data-theme="dark"] .schoolos-public .text-green-700,
+html[data-theme="dark"] .schoolos-public .text-green-800,
+html[data-theme="dark"] .schoolos-public .text-green-900 {
+    color: var(--so-brand-bright) !important;
+}
+
+html[data-theme="dark"] .schoolos-public .text-red-600,
+html[data-theme="dark"] .schoolos-public .text-red-700 {
+    color: var(--so-danger-text) !important;
+}
+
+html[data-theme="dark"] .schoolos-public .text-amber-700,
+html[data-theme="dark"] .schoolos-public .text-amber-800 {
+    color: var(--so-warning-text) !important;
+}
+
+html[data-theme="dark"] .schoolos-public .border-gray-100,
+html[data-theme="dark"] .schoolos-public .border-gray-200,
+html[data-theme="dark"] .schoolos-public .border-green-100,
+html[data-theme="dark"] .schoolos-public .border-green-200,
+html[data-theme="dark"] .schoolos-public .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+    border-color: var(--so-border) !important;
+}
+
+html[data-theme="dark"] .schoolos-public .border-green-600,
+html[data-theme="dark"] .schoolos-public .border-green-700 {
+    border-color: var(--so-brand) !important;
+}
+
+html[data-theme="dark"] .schoolos-public .shadow-sm,
+html[data-theme="dark"] .schoolos-public .shadow-lg,
+html[data-theme="dark"] .schoolos-public .shadow-xl,
+html[data-theme="dark"] .schoolos-public .shadow-2xl {
+    box-shadow: 0 18px 50px rgb(0 0 0 / 0.18) !important;
+}
+
+html[data-theme="dark"] .schoolos-public .hover\:shadow-lg:hover,
+html[data-theme="dark"] .schoolos-public .hover\:shadow-xl:hover {
+    box-shadow: 0 22px 55px rgb(0 0 0 / 0.22) !important;
+}
+
+html[data-theme="dark"] .schoolos-public input,
+html[data-theme="dark"] .schoolos-public select,
+html[data-theme="dark"] .schoolos-public textarea {
+    background-color: var(--so-surface-elevated) !important;
+    border-color: var(--so-border) !important;
+    color: var(--so-text) !important;
+}
+
+html[data-theme="dark"] .schoolos-public input::placeholder,
+html[data-theme="dark"] .schoolos-public textarea::placeholder {
+    color: var(--so-text-muted) !important;
+}
+
+html[data-theme="dark"] .schoolos-hero {
+    background:
+        radial-gradient(circle at 72% 24%, rgb(34 197 94 / 0.18), transparent 34%),
+        linear-gradient(180deg, #07130d 0%, #0d1b14 72%, #07130d 100%) !important;
+}
+
+html[data-theme="dark"] .schoolos-dashboard-dark {
+    background-color: #07130d !important;
+    border-color: var(--so-border) !important;
+    color: var(--so-text) !important;
+}
+
+html[data-theme="dark"] .schoolos-dashboard-dark .bg-slate-50,
+html[data-theme="dark"] .schoolos-dashboard-dark .bg-white {
+    background-color: var(--so-surface-secondary) !important;
+}
+
+html[data-theme="dark"] .schoolos-dashboard-dark .bg-white\/10 {
+    background-color: rgb(255 255 255 / 0.06) !important;
+}
+
+html[data-theme="dark"] .schoolos-footer {
+    background:
+        radial-gradient(circle at 20% 0%, rgb(34 197 94 / 0.12), transparent 30%),
+        #040b07 !important;
+    border-top: 1px solid var(--so-border);
+}
+
+.schoolos-footer {
+    background:
+        radial-gradient(circle at 18% 0%, rgb(34 197 94 / 0.10), transparent 30%),
+        linear-gradient(180deg, #f4fbf7 0%, #ecfdf3 100%);
+    border-top: 1px solid rgb(187 247 208 / 0.9);
+    color: #334155;
+}
+
+.schoolos-footer h2,
+.schoolos-footer h3,
+.schoolos-footer summary,
+.schoolos-footer a[aria-label="SchoolOS home"] span:last-child {
+    color: #052e16 !important;
+}
+
+.schoolos-footer p {
+    color: #475569;
+}
+
+.schoolos-footer-cta {
+    background: rgb(255 255 255 / 0.74);
+    border-color: rgb(187 247 208 / 0.9);
+    box-shadow: 0 20px 60px rgb(21 128 61 / 0.08);
+}
+
+.schoolos-footer-button {
+    align-items: center;
+    border-radius: 0.375rem;
+    display: inline-flex;
+    font-size: 0.875rem;
+    font-weight: 700;
+    justify-content: center;
+    min-height: 3rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    transition: background-color 180ms ease, border-color 180ms ease, box-shadow 180ms ease, color 180ms ease, transform 180ms ease;
+}
+
+.schoolos-footer-button:hover {
+    transform: translateY(-2px);
+}
+
+.schoolos-footer-button:active {
+    transform: translateY(0);
+}
+
+.schoolos-footer-button-primary {
+    background: var(--so-brand);
+    color: white;
+    box-shadow: 0 12px 28px rgb(22 163 74 / 0.18);
+}
+
+.schoolos-footer-button-primary:hover {
+    background: var(--so-brand-strong);
+}
+
+.schoolos-footer-button-secondary {
+    background: rgb(255 255 255 / 0.72);
+    border: 1px solid rgb(187 247 208 / 0.9);
+    color: #14532d;
+}
+
+.schoolos-footer-button-secondary:hover {
+    background: #ffffff;
+    border-color: var(--so-brand);
+}
+
+.schoolos-footer-link {
+    color: #475569;
+    display: inline-flex;
+    line-height: 1.35;
+    outline: none;
+    text-decoration: none;
+    transition: color 180ms ease, transform 180ms ease;
+}
+
+.schoolos-footer-link:hover {
+    color: #15803d;
+    transform: translateY(-1px);
+}
+
+.schoolos-footer-link:focus-visible,
+.schoolos-social-link:focus-visible,
+.schoolos-footer-button:focus-visible,
+.schoolos-footer summary:focus-visible {
+    border-radius: 0.375rem;
+    box-shadow: 0 0 0 4px var(--so-focus);
+    outline: 2px solid var(--so-brand);
+    outline-offset: 3px;
+}
+
+.schoolos-social-link {
+    align-items: center;
+    background: rgb(255 255 255 / 0.72);
+    border: 1px solid rgb(187 247 208 / 0.9);
+    border-radius: 0.375rem;
+    color: #166534;
+    display: flex;
+    height: 2.5rem;
+    justify-content: center;
+    transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease, transform 180ms ease;
+    width: 2.5rem;
+}
+
+.schoolos-social-link:hover {
+    background: #ffffff;
+    border-color: var(--so-brand);
+    color: #052e16;
+    transform: translateY(-2px);
+}
+
+.schoolos-footer-contact {
+    border-color: rgb(187 247 208 / 0.9);
+}
+
+.schoolos-footer-chevron {
+    color: var(--so-brand);
+    transition: transform 180ms ease;
+}
+
+.schoolos-footer-group[open] .schoolos-footer-chevron {
+    transform: rotate(45deg);
+}
+
+.schoolos-footer-group summary::-webkit-details-marker {
+    display: none;
+}
+
+html[data-theme="dark"] .schoolos-footer {
+    color: rgb(240 253 244 / 0.78);
+}
+
+html[data-theme="dark"] .schoolos-footer h2,
+html[data-theme="dark"] .schoolos-footer h3,
+html[data-theme="dark"] .schoolos-footer summary,
+html[data-theme="dark"] .schoolos-footer a[aria-label="SchoolOS home"] span:last-child {
+    color: #ffffff !important;
+}
+
+html[data-theme="dark"] .schoolos-footer p,
+html[data-theme="dark"] .schoolos-footer-link {
+    color: rgb(240 253 244 / 0.72);
+}
+
+html[data-theme="dark"] .schoolos-footer-link:hover {
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .schoolos-footer-cta {
+    background: rgb(255 255 255 / 0.045);
+    border-color: rgb(255 255 255 / 0.10);
+    box-shadow: 0 20px 70px rgb(0 0 0 / 0.18);
+}
+
+html[data-theme="dark"] .schoolos-footer-button-primary {
+    color: #052e16;
+}
+
+html[data-theme="dark"] .schoolos-footer-button-secondary,
+html[data-theme="dark"] .schoolos-social-link {
+    background: rgb(255 255 255 / 0.05);
+    border-color: rgb(255 255 255 / 0.10);
+    color: rgb(240 253 244 / 0.82);
+}
+
+html[data-theme="dark"] .schoolos-footer-button-secondary:hover,
+html[data-theme="dark"] .schoolos-social-link:hover {
+    background: rgb(255 255 255 / 0.10);
+    border-color: rgb(74 222 128 / 0.45);
+    color: #ffffff;
+}
+
+html[data-theme="dark"] .schoolos-footer-contact {
+    border-color: rgb(255 255 255 / 0.10);
+}
+
+@media (min-width: 640px) {
+    .schoolos-footer-group summary {
+        cursor: default;
+    }
+}
+
+@keyframes schoolos-float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+    }
+}
