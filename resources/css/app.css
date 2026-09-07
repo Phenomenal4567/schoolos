@@ -388,12 +388,203 @@ html[data-theme="dark"] .schoolos-footer-contact {
     }
 }
 
-@keyframes schoolos-float {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-10px);
+/* ==========================================================================
+   Animation system - scroll reveal, hero entrance, ambient depth, hover/tilt.
+   Philosophy: scroll reveals content, mouse adds subtle depth, hover signals
+   interactivity, click gives feedback. Nothing loops on ordinary content.
+   ========================================================================== */
+
+:root {
+    --so-ease: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Scroll-triggered reveal. JS adds .is-revealed via IntersectionObserver. */
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(28px) scale(0.97);
+    transition: opacity 650ms var(--so-ease), transform 650ms var(--so-ease);
+    transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal].is-revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+/* Hero entrance - runs once on load, never loops. */
+[data-hero-in] {
+    opacity: 0;
+    animation: so-hero-up 700ms var(--so-ease) forwards;
+    animation-delay: var(--hero-delay, 0ms);
+}
+
+[data-hero-in="scale"] {
+    animation-name: so-hero-scale;
+    animation-duration: 850ms;
+}
+
+@keyframes so-hero-up {
+    from { opacity: 0; transform: translateY(22px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes so-hero-scale {
+    from { opacity: 0; transform: translateY(18px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Ambient cursor glow - soft, diffuse, desktop only. JS sets --gx/--gy. */
+.so-glow {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.so-glow::before {
+    content: '';
+    position: absolute;
+    left: var(--gx, 50%);
+    top: var(--gy, 30%);
+    width: 620px;
+    height: 620px;
+    transform: translate3d(-50%, -50%, 0);
+    transition: opacity 500ms ease, left 900ms var(--so-ease), top 900ms var(--so-ease);
+    background: radial-gradient(circle, rgb(34 197 94 / 0.10), rgb(34 197 94 / 0.03) 45%, transparent 72%);
+    opacity: 0;
+    will-change: left, top;
+}
+
+.so-glow.is-active::before {
+    opacity: 1;
+}
+
+html[data-theme="dark"] .so-glow::before {
+    background: radial-gradient(circle, rgb(74 222 128 / 0.14), rgb(74 222 128 / 0.04) 45%, transparent 72%);
+}
+
+/* Card cursor light - soft reflection following the pointer inside a card. */
+[data-cursor-light] {
+    position: relative;
+}
+
+[data-cursor-light]::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(240px circle at var(--cx, 50%) var(--cy, 0%), rgb(34 197 94 / 0.09), transparent 72%);
+    opacity: 0;
+    transition: opacity 300ms ease;
+    pointer-events: none;
+}
+
+[data-cursor-light].is-hovering::before {
+    opacity: 1;
+}
+
+[data-parallax-target] {
+    transition: transform 400ms var(--so-ease);
+    will-change: transform;
+}
+
+/* Card lift + tilt. JS drives --rx/--ry/--lift on [data-tilt]; plain hover
+   cards use the Tailwind utility classes already on their markup. */
+[data-tilt] {
+    transform: perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px));
+    transition: transform 350ms var(--so-ease), box-shadow 300ms ease;
+    will-change: transform;
+}
+
+/* A card that both scroll-reveals and tilts needs one merged transform rule -
+   otherwise whichever single-attribute rule loads last would silently win
+   outright and the other effect would be dropped. */
+[data-reveal][data-tilt] {
+    opacity: 0;
+    transform: translateY(28px) scale(0.97) perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px));
+    transition: opacity 650ms var(--so-ease), transform 500ms var(--so-ease), box-shadow 300ms ease;
+    transition-delay: var(--reveal-delay, 0ms);
+}
+
+[data-reveal][data-tilt].is-revealed {
+    opacity: 1;
+    transform: translateY(0) scale(1) perspective(1000px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(var(--lift, 0px));
+    transition-delay: 0ms;
+}
+
+/* Hub diagram - central logo with live connections to each role. */
+.so-hub-line {
+    stroke-dasharray: 60;
+    stroke-dashoffset: 60;
+    transition: stroke-dashoffset 800ms var(--so-ease);
+    transition-delay: var(--line-delay, 0ms);
+}
+
+.so-hub.is-revealed .so-hub-line {
+    stroke-dashoffset: 0;
+}
+
+.so-hub-node {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateY(16px) scale(0.92);
+    transition: opacity 550ms var(--so-ease), transform 550ms var(--so-ease);
+    transition-delay: var(--node-delay, 0ms);
+}
+
+.so-hub.is-revealed .so-hub-node {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0) scale(1);
+}
+
+.so-hub-center {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.86);
+    transition: opacity 550ms var(--so-ease), transform 550ms var(--so-ease);
+}
+
+.so-hub.is-revealed .so-hub-center {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.so-hub-ring {
+    opacity: 0;
+    transition: opacity 600ms ease;
+    transition-delay: 200ms;
+    animation: so-hub-ring-pulse 3.2s ease-in-out infinite;
+    animation-play-state: paused;
+}
+
+.so-hub.is-revealed .so-hub-ring {
+    opacity: 0.22;
+    animation-play-state: running;
+}
+
+@keyframes so-hub-ring-pulse {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.12); }
+}
+
+.so-hub-dot {
+    opacity: 0.3;
+    animation: so-live-pulse 2.4s ease-in-out infinite;
+    animation-play-state: paused;
+}
+
+.so-hub.is-revealed .so-hub-dot {
+    animation-play-state: running;
+}
+
+@keyframes so-live-pulse {
+    0%, 100% { opacity: 0.3; }
+    50% { opacity: 1; }
+}
+
+@media (hover: none) {
+    .so-glow,
+    [data-cursor-light]::before {
+        display: none !important;
     }
 }
 
@@ -405,5 +596,27 @@ html[data-theme="dark"] .schoolos-footer-contact {
         animation-iteration-count: 1 !important;
         scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
+    }
+
+    [data-reveal],
+    [data-hero-in],
+    .so-hub-node,
+    .so-hub-center {
+        opacity: 1 !important;
+        transform: none !important;
+    }
+
+    .so-hub-line {
+        stroke-dashoffset: 0 !important;
+    }
+
+    .so-glow,
+    [data-cursor-light]::before,
+    .so-hub-ring {
+        display: none !important;
+    }
+
+    [data-tilt] {
+        transform: none !important;
     }
 }
