@@ -1,21 +1,17 @@
 {
-  "version": 2,
-  "framework": null,
-  "buildCommand": "npm run build",
-  "outputDirectory": "public",
-  "functions": {
-    "api/index.php": {
-      "runtime": "vercel-php@0.9.0"
-    }
-  },
-  "routes": [
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "crons": [
     {
-      "src": "/build/(.*)",
-      "dest": "/build/$1"
+      "path": "/api/cron/exports",
+      "schedule": "0 0 * * *"
     },
     {
-      "src": "/(.*)",
-      "dest": "api/index.php"
+      "path": "/api/cron/prune-exports",
+      "schedule": "0 1 * * *"
+    },
+    {
+      "path": "/api/cron/fee-reminders",
+      "schedule": "0 6 * * *"
     }
   ]
 }
